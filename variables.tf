@@ -35,3 +35,22 @@ variable "public_key_openssh_title" {
   type        = string
   description = "The title for OpenSSH public key"
 }
+
+variable "commit_message" {
+  type        = string
+  default     = "Managed by Terraform"
+  description = "commit message"
+}
+
+variable "commit_author" {
+  type        = string
+  default     = "Terraform User"
+  description = "commit author"
+}
+
+variable "commit_email" {
+  type        = string
+  default     = "terraform@gh.com"
+  description = "commit email"
+}
+
