@@ -1,20 +1,24 @@
 # GitHub Repository Terraform Module
 
-This Terraform module creates a private repository on GitHub, and adds a deploy key to it.
+This Terraform module creates a private repository on GitHub, and adds a deploy key to it. Also it creates yaml Flux configuration files to deploy kbot-app into the GKE cluster.
 
 ## Usage
 
 ```hcl
 module "github_repository" {
-  source                   = "github.com/den-vasyliev/tf-github-repository"
+  source                   = "https://github.com/SVestor/tf-github-repository"
   github_owner             = var.GITHUB_OWNER
   github_token             = var.GITHUB_TOKEN
   repository_name          = var.FLUX_GITHUB_REPO
   public_key_openssh       = module.tls_private_key.public_key_openssh
   public_key_openssh_title = "flux"
+  commit_message           = var.commit_message
+  commit_author            = var.commit_author
+  commit_email             = var.commit_email  
 }
 module "tls_private_key" {
-  source = "github.com/den-vasyliev/tf-hashicorp-tls-keys"
+  source = "https://github.com/SVestor/tf-hashicorp-tls-keys"
+  algorithm   = var.algorithm
 }
 ```
 ## Inputs
@@ -25,6 +29,9 @@ module "tls_private_key" {
 - branch - (Optional) The name of the branch to create. Default is main.
 - public_key_openssh - The public key to use as a deploy key for the repository.
 - public_key_openssh_title - The title of the public key to use as a deploy key for the repository.
+- commit_message - (Optional) - The commit message to create. Default is "Managed by Terraform"
+- commit_author - (Optional)  - Default is "Terraform User"
+- commit_email  - (Optional)  - Default is "terraform@gh.com"
 
 ## Outputs
 - repository_name - The name of the created repository.
